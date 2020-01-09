@@ -20,29 +20,11 @@ Class MainWindow
         tsNewTime = New DateTime(dtCurrentTime.Year, dtCurrentTime.Month, dtCurrentTime.Day, dtCurrentTime.Hour, dtCurrentTime.Minute, 0).AddMinutes(15 - dtCurrentTime.Minute Mod 15)
         sTime = Format(tsNewTime, "HH:mm")
 
-        cmbMonth.Items.Add("Jan")
-        cmbMonth.Items.Add("Feb")
-        cmbMonth.Items.Add("Mar")
-        cmbMonth.Items.Add("Apr")
-        cmbMonth.Items.Add("May")
-        cmbMonth.Items.Add("Jun")
-        cmbMonth.Items.Add("Jul")
-        cmbMonth.Items.Add("Aug")
-        cmbMonth.Items.Add("Sep")
-        cmbMonth.Items.Add("Oct")
-        cmbMonth.Items.Add("Nov")
-        cmbMonth.Items.Add("Dec")
+        addYears()
 
-        cmbYear.Items.Add(2020)
-        cmbYear.Items.Add(2021)
-        cmbYear.Items.Add(2022)
-        cmbYear.Items.Add(2023)
-        cmbYear.Items.Add(2024)
-        cmbYear.Items.Add(2025)
-        cmbYear.Items.Add(2026)
-        cmbYear.Items.Add(2027)
-        cmbYear.Items.Add(2028)
-        cmbYear.Items.Add(2029)
+        addMonths()
+
+        addDays()
 
         cmbTime.Items.Add("00:00")
         cmbTime.Items.Add("00:15")
@@ -143,31 +125,6 @@ Class MainWindow
 
         cmbMonth.SelectedIndex = cmbMonth.Items.IndexOf(sMonth)
 
-        Dim i As Integer = 0
-
-        If cmbMonth.Text = "Jan" Or cmbMonth.Text = "Mar" Or cmbMonth.Text = "May" Or cmbMonth.Text = "Jul" Or cmbMonth.Text = "Aug" Or cmbMonth.Text = "Oct" Or cmbMonth.Text = "Dec" Then
-            cmbDay.Items.Clear()
-            i = 1
-            While i < 32
-                cmbDay.Items.Add(i)
-                i += 1
-            End While
-        ElseIf cmbMonth.Text = "Feb" Then
-            cmbDay.Items.Clear()
-            i = 1
-            While i < 29
-                cmbDay.Items.Add(i)
-                i += 1
-            End While
-        Else
-            cmbDay.Items.Clear()
-            i = 1
-            While i < 31
-                cmbDay.Items.Add(i)
-                i += 1
-            End While
-        End If
-
         cmbDay.Text = iDay
         cmbYear.Text = iYear
         cmbTime.Text = sTime
@@ -178,29 +135,7 @@ Class MainWindow
     End Sub
 
     Private Sub cmbMonth_DropDownClosed(sender As Object, e As EventArgs) Handles cmbMonth.DropDownClosed
-        Dim i As Integer
-        If cmbMonth.Text = "Jan" Or cmbMonth.Text = "Mar" Or cmbMonth.Text = "May" Or cmbMonth.Text = "Jul" Or cmbMonth.Text = "Aug" Or cmbMonth.Text = "Oct" Or cmbMonth.Text = "Dec" Then
-            cmbDay.Items.Clear()
-            i = 1
-            While i < 32
-                cmbDay.Items.Add(i)
-                i += 1
-            End While
-        ElseIf cmbMonth.Text = "Feb" Then
-            cmbDay.Items.Clear()
-            i = 1
-            While i < 29
-                cmbDay.Items.Add(i)
-                i += 1
-            End While
-        Else
-            cmbDay.Items.Clear()
-            i = 1
-            While i < 31
-                cmbDay.Items.Add(i)
-                i += 1
-            End While
-        End If
+
     End Sub
 
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
@@ -359,6 +294,87 @@ Class MainWindow
     End Sub
 
     Private Sub addYears()
+        Dim intYear As Integer
+
+        intYear = DateTime.Now.Year
+
+        If DateTime.Now.Month = 12 Then
+            If DateTime.Now.Day = 30 Or DateTime.Now.Day = 31 Then
+                cmbYear.Items.Add(intYear)
+                cmbYear.Items.Add(intYear + 1)
+            Else
+                cmbYear.Items.Add(intYear)
+            End If
+        Else
+            cmbYear.Items.Add(intYear)
+        End If
+    End Sub
+
+    Private Sub addDays()
+        Dim iday = DateTime.Now.Day
+        Dim sMonth As String = DateTime.Now.ToString("MMM")
+        Dim x As Integer = 2020
+
+        cmbDay.Items.Add(iday)
+
+        If sMonth = "Jan" Or sMonth = "Mar" Or sMonth = "May" Or sMonth = "Jul" Or sMonth = "Aug" Or sMonth = "Oct" Or sMonth = "Dec" Then
+            If DateTime.Now.Day = 31 Then
+                cmbDay.Items.Add(1)
+            Else
+                cmbDay.Items.Add(iday + 1)
+            End If
+        ElseIf sMonth = "Feb" Then
+            While x < 2400
+                If DateTime.Now.Year = x Then
+                    If DateTime.Now.Day = 29 Then
+                        cmbDay.Items.Add(1)
+                        Exit While
+                    Else
+                        cmbDay.Items.Add(iday + 1)
+                        Exit While
+                    End If
+                Else
+                    If DateTime.Now.Day = 28 Then
+                        cmbDay.Items.Add(1)
+                        Exit While
+                    Else
+                        cmbDay.Items.Add(iday + 1)
+                        Exit While
+                    End If
+                End If
+                x += 4
+            End While
+        Else
+            If DateTime.Now.Day = 30 Then
+                cmbDay.Items.Add(1)
+            Else
+                cmbDay.Items.Add(iday + 1)
+            End If
+        End If
+
+    End Sub
+
+    Private Sub addMonths()
+        Dim sMonth As String = DateTime.Now.ToString("MMM")
+        Dim iNextMonth As Integer = DateTime.Now.Month + 1
+        Dim sNextMonth As String = MonthName(iNextMonth, True)
+
+        cmbMonth.Items.Add(sMonth)
+
+        If sMonth = "Jan" Or sMonth = "Mar" Or sMonth = "May" Or sMonth = "Jul" Or sMonth = "Aug" Or sMonth = "Oct" Or sMonth = "Dec" Then
+            If DateTime.Now.Day = 31 Then
+                cmbMonth.Items.Add(sNextMonth)
+            End If
+        ElseIf sMonth = "Feb" Then
+            If DateTime.Now.Day = 28 Or DateTime.Now.Day = 29 Then
+                cmbMonth.Items.Add(sNextMonth)
+            End If
+        Else
+            If DateTime.Now.Day = 30 Then
+                cmbMonth.Items.Add(sNextMonth)
+            End If
+        End If
+
 
     End Sub
 End Class
