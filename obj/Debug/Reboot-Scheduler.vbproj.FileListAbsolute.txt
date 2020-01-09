@@ -1,0 +1,16 @@
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\bin\Debug\Reboot-Scheduler.exe.config
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\bin\Debug\Reboot-Scheduler.exe
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\bin\Debug\Reboot-Scheduler.pdb
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\bin\Debug\Reboot-Scheduler.xml
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler.vbprojAssemblyReference.cache
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\MainWindow.g.vb
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Application.g.vb
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler_MarkupCompile.cache
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler_MarkupCompile.lref
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\MainWindow.baml
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler.g.resources
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot_Scheduler.Resources.resources
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler.vbproj.GenerateResource.cache
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler.exe
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler.xml
+C:\Users\brad.aymer\source\repos\Reboot-Scheduler\Reboot-Scheduler\obj\Debug\Reboot-Scheduler.pdb

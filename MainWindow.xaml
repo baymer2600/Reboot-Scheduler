@@ -1,0 +1,155 @@
+﻿<Window x:Name="winMain" x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Reboot_Scheduler"
+        mc:Ignorable="d"
+        Title="Reboot Scheduler" Height="310" Width="600" ResizeMode="NoResize" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" Topmost="True" Icon="CMSIcon.ico" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Style="{DynamicResource WindowStyle1}">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="5">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="WindowTemplateKey" TargetType="{x:Type Window}">
+            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                <Grid>
+                    <AdornerDecorator>
+                        <ContentPresenter/>
+                    </AdornerDecorator>
+                    <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                        <Condition Property="WindowState" Value="Normal"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
+                </MultiTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="WindowStyle1" TargetType="{x:Type Window}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <AdornerDecorator>
+                                <ContentPresenter/>
+                            </AdornerDecorator>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
+                    <Setter Property="Template" Value="{StaticResource WindowTemplateKey}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="grdOne" Margin="-9,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="115*"/>
+            <RowDefinition Height="19*"/>
+            <RowDefinition Height="147*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="596*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle x:Name="recTwo" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Height="67" Margin="15,70,0,0" Grid.Row="2" Stroke="Black" VerticalAlignment="Top"/>
+        <Rectangle x:Name="recOne" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Height="69" Margin="15,83,0,0" Stroke="Black" VerticalAlignment="Top" Grid.RowSpan="3"/>
+        <TextBlock x:Name="txtMsg" HorizontalAlignment="Left" Margin="28,94,0,0" TextWrapping="Wrap" Text="Updates have been performed on your computer that require a reboot.  You can reboot immediately by pressing 'Reboot Now'. or you can schedule a reboot for a later time below. " VerticalAlignment="Top" RenderTransformOrigin="0.91,-0.693" Width="468" Grid.RowSpan="3" Height="48"/>
+        <Image x:Name="imgJourney" HorizontalAlignment="Left" Height="64" Margin="195,10,0,0" VerticalAlignment="Top" Width="267" Source="Journey.PNG"/>
+        <Button x:Name="btnReboot" Content="Reboot Now" HorizontalAlignment="Left" Height="27" Margin="490,0,0,0" VerticalAlignment="Top" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" FontWeight="Bold" Grid.RowSpan="2" Foreground="Red" Style="{DynamicResource ButtonStyle1}" Grid.Row="1">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <ComboBox x:Name="cmbMonth" HorizontalAlignment="Left" Height="24" Margin="28,105,0,0" Grid.Row="2" VerticalAlignment="Top" Width="64"/>
+        <ComboBox x:Name="cmbYear" HorizontalAlignment="Left" Height="24" Margin="184,105,0,0" Grid.Row="2" VerticalAlignment="Top" Width="64"/>
+        <ComboBox x:Name="cmbDay" HorizontalAlignment="Left" Height="24" Margin="106,105,0,0" Grid.Row="2" VerticalAlignment="Top" Width="64">
+
+        </ComboBox>
+        <TextBlock x:Name="txtMonth" HorizontalAlignment="Left" Margin="28,82,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Month" VerticalAlignment="Top" FontWeight="Bold" Height="16" Width="38"/>
+        <TextBlock x:Name="txtDay" HorizontalAlignment="Left" Margin="106,82,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Day" VerticalAlignment="Top" FontWeight="Bold" Height="16" Width="22"/>
+        <TextBlock x:Name="txtYear" HorizontalAlignment="Left" Margin="182,82,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Year" VerticalAlignment="Top" FontWeight="Bold" Height="16" Width="24"/>
+        <TextBlock x:Name="txtTime" HorizontalAlignment="Left" Margin="260,82,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Time" VerticalAlignment="Top" FontWeight="Bold" Height="16" Width="28"/>
+        <ComboBox x:Name="cmbTime" HorizontalAlignment="Left" Height="24" Margin="262,105,0,0" Grid.Row="2" VerticalAlignment="Top" Width="64"/>
+        <TextBlock x:Name="txtSchedule" HorizontalAlignment="Left" Margin="246,49,0,0" TextWrapping="Wrap" Text="Schedule Reboot Time" VerticalAlignment="Top" Grid.Row="2" FontWeight="Bold" Height="16" Width="126"/>
+        <Button x:Name="btnSchedule" Content="Schedule" HorizontalAlignment="Left" Height="27" Margin="490,90,0,0" VerticalAlignment="Top" Width="80" Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" FontWeight="Bold" Style="{DynamicResource ButtonStyle1}">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <GroupBox x:Name="grpConfirm" Header="Confirmation" HorizontalAlignment="Left" Height="135" Margin="162,69,0,0" Grid.RowSpan="3" VerticalAlignment="Top" Width="300" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontWeight="Bold" Visibility="Hidden">
+            <GroupBox.Effect>
+                <DropShadowEffect/>
+            </GroupBox.Effect>
+        </GroupBox>
+        <Button x:Name="butRebootCancel" Content="Cancel" HorizontalAlignment="Left" Margin="365,29,0,0" Grid.Row="2" VerticalAlignment="Top" Width="49" Visibility="Hidden"/>
+        <Button x:Name="butRebootConfirm" Content="Reboot" HorizontalAlignment="Left" Margin="215,29,0,0" Grid.Row="2" VerticalAlignment="Top" Width="49" Visibility="Hidden"/>
+        <TextBlock x:Name="txtQuestion" HorizontalAlignment="Left" Margin="204,94,0,0" TextWrapping="Wrap" Text="Are you sure you want to reboot now?" VerticalAlignment="Top" FontWeight="Bold" Visibility="Hidden"/>
+        <TextBlock x:Name="txtSchedConfirm" HorizontalAlignment="Left" Margin="176,97,0,0" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" FontWeight="Bold" Visibility="Hidden"><Run Text="Are you sure you want to schedule a reboot for:"/></TextBlock>
+        <TextBlock x:Name="txtSchedDate" HorizontalAlignment="Left" Margin="255,14,0,0" Grid.Row="1" TextWrapping="Wrap" Text="12/12/2020 12:12:12" VerticalAlignment="Top" Grid.RowSpan="2" FontWeight="Bold" Visibility="Hidden"/>
+        <Button x:Name="butSchedReboot" Content="Schedule" HorizontalAlignment="Left" Margin="215,29,0,0" Grid.Row="2" VerticalAlignment="Top" Width="56" Visibility="Hidden"/>
+        <Button x:Name="butSchedCancel" Content="Cancel" HorizontalAlignment="Left" Margin="365,29,0,0" Grid.Row="2" VerticalAlignment="Top" Width="56" Visibility="Hidden"/>
+
+    </Grid>
+</Window>
