@@ -6,19 +6,11 @@ Class MainWindow
         Dim sMonth As String
         Dim iDay As Integer
         Dim iYear As Integer
-        Dim tsNewTime As DateTime
-        Dim dtCurrentTime As DateTime
-        Dim sTime As String
 
         txtSchedDate.Text = ""
-
-
-        dtCurrentTime = DateTime.Now
-        sMonth = DateTime.Now.ToString("MMM")
         iDay = DateTime.Now.Day
         iYear = DateTime.Now.Year
-        tsNewTime = New DateTime(dtCurrentTime.Year, dtCurrentTime.Month, dtCurrentTime.Day, dtCurrentTime.Hour, dtCurrentTime.Minute, 0).AddMinutes(15 - dtCurrentTime.Minute Mod 15)
-        sTime = Format(tsNewTime, "HH:mm")
+        sMonth = DateTime.Now.ToString("MMM")
 
         addYears()
 
@@ -26,120 +18,64 @@ Class MainWindow
 
         addDays()
 
-        cmbTime.Items.Add("00:00")
-        cmbTime.Items.Add("00:15")
-        cmbTime.Items.Add("00:30")
-        cmbTime.Items.Add("00:45")
-        cmbTime.Items.Add("01:00")
-        cmbTime.Items.Add("01:15")
-        cmbTime.Items.Add("01:30")
-        cmbTime.Items.Add("01:45")
-        cmbTime.Items.Add("02:00")
-        cmbTime.Items.Add("02:15")
-        cmbTime.Items.Add("02:30")
-        cmbTime.Items.Add("02:45")
-        cmbTime.Items.Add("03:00")
-        cmbTime.Items.Add("03:15")
-        cmbTime.Items.Add("03:30")
-        cmbTime.Items.Add("03:45")
-        cmbTime.Items.Add("04:00")
-        cmbTime.Items.Add("04:15")
-        cmbTime.Items.Add("04:30")
-        cmbTime.Items.Add("04:45")
-        cmbTime.Items.Add("05:00")
-        cmbTime.Items.Add("05:15")
-        cmbTime.Items.Add("05:30")
-        cmbTime.Items.Add("05:45")
-        cmbTime.Items.Add("06:00")
-        cmbTime.Items.Add("06:15")
-        cmbTime.Items.Add("06:30")
-        cmbTime.Items.Add("06:45")
-        cmbTime.Items.Add("07:00")
-        cmbTime.Items.Add("07:15")
-        cmbTime.Items.Add("07:30")
-        cmbTime.Items.Add("07:45")
-        cmbTime.Items.Add("08:00")
-        cmbTime.Items.Add("08:15")
-        cmbTime.Items.Add("08:30")
-        cmbTime.Items.Add("08:45")
-        cmbTime.Items.Add("09:00")
-        cmbTime.Items.Add("09:15")
-        cmbTime.Items.Add("09:30")
-        cmbTime.Items.Add("09:45")
-        cmbTime.Items.Add("10:00")
-        cmbTime.Items.Add("10:15")
-        cmbTime.Items.Add("10:30")
-        cmbTime.Items.Add("10:45")
-        cmbTime.Items.Add("11:00")
-        cmbTime.Items.Add("11:15")
-        cmbTime.Items.Add("11:30")
-        cmbTime.Items.Add("11:45")
-        cmbTime.Items.Add("12:00")
-        cmbTime.Items.Add("12:15")
-        cmbTime.Items.Add("12:30")
-        cmbTime.Items.Add("12:45")
-        cmbTime.Items.Add("13:00")
-        cmbTime.Items.Add("13:15")
-        cmbTime.Items.Add("13:30")
-        cmbTime.Items.Add("13:45")
-        cmbTime.Items.Add("14:00")
-        cmbTime.Items.Add("14:15")
-        cmbTime.Items.Add("14:30")
-        cmbTime.Items.Add("14:45")
-        cmbTime.Items.Add("15:00")
-        cmbTime.Items.Add("15:15")
-        cmbTime.Items.Add("15:30")
-        cmbTime.Items.Add("15:45")
-        cmbTime.Items.Add("16:00")
-        cmbTime.Items.Add("16:15")
-        cmbTime.Items.Add("16:30")
-        cmbTime.Items.Add("16:45")
-        cmbTime.Items.Add("17:00")
-        cmbTime.Items.Add("17:15")
-        cmbTime.Items.Add("17:30")
-        cmbTime.Items.Add("17:45")
-        cmbTime.Items.Add("18:00")
-        cmbTime.Items.Add("18:15")
-        cmbTime.Items.Add("18:30")
-        cmbTime.Items.Add("18:45")
-        cmbTime.Items.Add("19:00")
-        cmbTime.Items.Add("19:15")
-        cmbTime.Items.Add("19:30")
-        cmbTime.Items.Add("19:45")
-        cmbTime.Items.Add("20:00")
-        cmbTime.Items.Add("20:15")
-        cmbTime.Items.Add("20:30")
-        cmbTime.Items.Add("20:45")
-        cmbTime.Items.Add("21:00")
-        cmbTime.Items.Add("21:15")
-        cmbTime.Items.Add("21:30")
-        cmbTime.Items.Add("21:45")
-        cmbTime.Items.Add("22:00")
-        cmbTime.Items.Add("22:15")
-        cmbTime.Items.Add("22:30")
-        cmbTime.Items.Add("22:45")
-        cmbTime.Items.Add("23:00")
-        cmbTime.Items.Add("23:15")
-        cmbTime.Items.Add("23:30")
-        cmbTime.Items.Add("23:45")
+        addTimes()
 
-        cmbMonth.SelectedIndex = cmbMonth.Items.IndexOf(sMonth)
-
+        cmbMonth.Text = sMonth
         cmbDay.Text = iDay
         cmbYear.Text = iYear
-        cmbTime.Text = sTime
+
     End Sub
 
-    Private Sub cmbMonth_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cmbMonth.SelectionChanged
+    Private Sub cmbDay_DropDownClosed(sender As Object, e As EventArgs) Handles cmbDay.DropDownClosed
+        If cmbDay.SelectedIndex = 1 Then
+            cmbTime.Items.Clear()
+            addTimes("00:00")
+            cmbMonth.SelectedIndex = 1
+            If cmbMonth.Text = "Jan" Then
+                cmbYear.SelectedIndex = 1
+            End If
+        Else
+            cmbTime.Items.Clear()
+            addTimes()
+            cmbMonth.SelectedIndex = 0
+            cmbYear.SelectedIndex = 0
+        End If
+
+    End Sub
+
+    Private Sub cmbYear_DropDownClosed(sender As Object, e As EventArgs) Handles cmbYear.DropDownClosed
+        If cmbYear.SelectedIndex = 1 Then
+            cmbTime.Items.Clear()
+            addTimes("00:00")
+            cmbMonth.SelectedIndex = 1
+            cmbDay.SelectedIndex = 1
+        Else
+            cmbTime.Items.Clear()
+            addTimes()
+            cmbMonth.SelectedIndex = 0
+            cmbDay.SelectedIndex = 0
+        End If
 
     End Sub
 
     Private Sub cmbMonth_DropDownClosed(sender As Object, e As EventArgs) Handles cmbMonth.DropDownClosed
-
+        If cmbMonth.SelectedIndex = 1 Then
+            cmbTime.Items.Clear()
+            addTimes("00:00")
+            cmbDay.SelectedIndex = 1
+            If cmbMonth.Text = "Jan" Then
+                cmbYear.SelectedIndex = 1
+            End If
+        Else
+            cmbTime.Items.Clear()
+            addTimes()
+            cmbDay.SelectedIndex = 0
+            cmbYear.SelectedIndex = 0
+        End If
     End Sub
 
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        e.Cancel = True
+        'e.Cancel = True
     End Sub
 
     Private Sub btnReboot_Click(sender As Object, e As RoutedEventArgs) Handles btnReboot.Click
@@ -299,7 +235,7 @@ Class MainWindow
         intYear = DateTime.Now.Year
 
         If DateTime.Now.Month = 12 Then
-            If DateTime.Now.Day = 30 Or DateTime.Now.Day = 31 Then
+            If DateTime.Now.Day = 31 Then
                 cmbYear.Items.Add(intYear)
                 cmbYear.Items.Add(intYear + 1)
             Else
@@ -356,8 +292,15 @@ Class MainWindow
 
     Private Sub addMonths()
         Dim sMonth As String = DateTime.Now.ToString("MMM")
-        Dim iNextMonth As Integer = DateTime.Now.Month + 1
-        Dim sNextMonth As String = MonthName(iNextMonth, True)
+        Dim iNextMonth As Integer
+        Dim sNextMonth As String
+
+        iNextMonth = DateTime.Now.Month + 1
+        If iNextMonth = 13 Then
+            iNextMonth = 1
+        End If
+
+        sNextMonth = MonthName(iNextMonth, True)
 
         cmbMonth.Items.Add(sMonth)
 
@@ -374,6 +317,44 @@ Class MainWindow
                 cmbMonth.Items.Add(sNextMonth)
             End If
         End If
+
+
+    End Sub
+    Private Sub addTimes(Optional ByVal updatedDate = "")
+        Dim tsNewTime As DateTime
+        Dim dtCurrentTime As DateTime
+        Dim sTime As String
+        Dim sNewTime As String
+        Dim tsTime As DateTime
+        Dim dtUpdatedTime As DateTime
+
+        dtUpdatedTime = "00:00"
+
+        dtCurrentTime = DateTime.Now
+
+
+
+        tsNewTime = New DateTime(dtCurrentTime.Year, dtCurrentTime.Month, dtCurrentTime.Day, dtCurrentTime.Hour, dtCurrentTime.Minute, 0).AddMinutes(15 - dtCurrentTime.Minute Mod 15)
+
+        If updatedDate = "00:00" Then
+            sTime = "00:00"
+            tsTime = "00:00"
+            cmbTime.Items.Add(sTime)
+            cmbTime.Text = sTime
+            sNewTime = sTime
+        Else
+            sTime = Format(tsNewTime, "HH:mm")
+            cmbTime.Items.Add(sTime)
+            cmbTime.Text = sTime
+            sNewTime = sTime
+            tsTime = tsNewTime
+        End If
+
+        While sNewTime <> "23:45"
+            tsTime = New DateTime(tsTime.Year, tsTime.Month, tsTime.Day, tsTime.Hour, tsTime.Minute, 0).AddMinutes(15)
+            sNewTime = Format(tsTime, "HH:mm")
+            cmbTime.Items.Add(sNewTime)
+        End While
 
 
     End Sub
