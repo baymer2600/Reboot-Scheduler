@@ -3,6 +3,8 @@ Imports System.Windows.Media.Effects
 
 Class MainWindow
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        'Populates Combo Boxes and sets them to current date and time
+
         Dim sMonth As String
         Dim iDay As Integer
         Dim iYear As Integer
@@ -25,11 +27,12 @@ Class MainWindow
         cmbYear.Text = iYear
 
     End Sub
-
     Private Sub cmbDay_DropDownClosed(sender As Object, e As EventArgs) Handles cmbDay.DropDownClosed
+        'Adjusts Comboboxes and resets times
+
         If cmbDay.SelectedIndex = 1 Then
             cmbTime.Items.Clear()
-            addTimes("00:00")
+            addTimes("True")
             cmbMonth.SelectedIndex = 1
             If cmbMonth.Text = "Jan" Then
                 cmbYear.SelectedIndex = 1
@@ -42,11 +45,12 @@ Class MainWindow
         End If
 
     End Sub
-
     Private Sub cmbYear_DropDownClosed(sender As Object, e As EventArgs) Handles cmbYear.DropDownClosed
+        'Adjusts Comboboxes and resets times
+
         If cmbYear.SelectedIndex = 1 Then
             cmbTime.Items.Clear()
-            addTimes("00:00")
+            addTimes("True")
             cmbMonth.SelectedIndex = 1
             cmbDay.SelectedIndex = 1
         Else
@@ -57,11 +61,12 @@ Class MainWindow
         End If
 
     End Sub
-
     Private Sub cmbMonth_DropDownClosed(sender As Object, e As EventArgs) Handles cmbMonth.DropDownClosed
+        'Adjusts Comboboxes and resets times
+
         If cmbMonth.SelectedIndex = 1 Then
             cmbTime.Items.Clear()
-            addTimes("00:00")
+            addTimes("True")
             cmbDay.SelectedIndex = 1
             If cmbMonth.Text = "Jan" Then
                 cmbYear.SelectedIndex = 1
@@ -73,12 +78,13 @@ Class MainWindow
             cmbYear.SelectedIndex = 0
         End If
     End Sub
-
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        'Disables close functionality
+
         'e.Cancel = True
     End Sub
-
     Private Sub btnReboot_Click(sender As Object, e As RoutedEventArgs) Handles btnReboot.Click
+        'Blurs background and makes confirmation window visible
 
         Dim blur As New BlurEffect()
 
@@ -103,11 +109,10 @@ Class MainWindow
         cmbYear.Effect = blur
         cmbTime.Effect = blur
 
-
-
     End Sub
-
     Private Sub butRebootCancel_Click(sender As Object, e As RoutedEventArgs) Handles butRebootCancel.Click
+        'Resets effects, hides confirmation window
+
         Dim drop As New DropShadowEffect
 
         imgJourney.Effect = Nothing
@@ -133,14 +138,16 @@ Class MainWindow
         grpConfirm.Visibility = Visibility.Hidden
         txtQuestion.Visibility = Visibility.Hidden
     End Sub
-
     Private Sub butRebootConfirm_Click(sender As Object, e As RoutedEventArgs) Handles butRebootConfirm.Click
+        'Starts reboot to occur in 15 seconds from clicking confirm
+
         System.Diagnostics.Process.Start("shutdown", "-r -f -t 15")
         End
     End Sub
-
     Private Sub btnSchedule_Click(sender As Object, e As RoutedEventArgs) Handles btnSchedule.Click
-        Dim dtNewDate As Long
+        'Schedules the reboot and shows the user one last time what date and time they chose to reboot.
+
+        'Dim dtNewDate As Long
         Dim strNewDate As Date
         Dim strNumMonth As String
         Dim blur As New BlurEffect()
@@ -166,41 +173,33 @@ Class MainWindow
         grpConfirm.Visibility = Visibility.Visible
         txtSchedConfirm.Visibility = Visibility.Visible
 
-
         strNumMonth = cmbMonth.SelectedIndex + 1
-        strNewDate = strNumMonth + "/" + cmbDay.Text + "/" + cmbYear.Text + " " + cmbTime.Text + ":00"
-
-        dtNewDate = DateDiff(DateInterval.Second, DateTime.Now, strNewDate)
+        strNewDate = strNumMonth + "/" + cmbDay.Text + "/" + cmbYear.Text + " " + cmbTime.Text
+        'dtNewDate = DateDiff(DateInterval.Second, DateTime.Now, strNewDate)
 
         txtSchedDate.Text = strNewDate
         txtSchedDate.Visibility = Visibility.Visible
 
-
     End Sub
-
     Private Sub butSchedReboot_Click(sender As Object, e As RoutedEventArgs) Handles butSchedReboot.Click
-        Dim dtNewDate As Long
+        'Gives user a confirmation of date and time of reboot.
+
         Dim strNewDate As Date
         Dim strNumMonth As String
         Dim Response
 
         strNumMonth = cmbMonth.SelectedIndex + 1
-        strNewDate = strNumMonth + "/" + cmbDay.Text + "/" + cmbYear.Text + " " + cmbTime.Text + ":00"
-
-        dtNewDate = DateDiff(DateInterval.Second, DateTime.Now, strNewDate)
-
-
+        strNewDate = strNumMonth + "/" + cmbDay.Text + "/" + cmbYear.Text + " " + cmbTime.Text
         Response = MsgBox("Reboot scheduled for " + strNewDate)
 
         If Response = 1 Then
             End
         End If
 
-
-
     End Sub
-
     Private Sub butSchedCancel_Click(sender As Object, e As RoutedEventArgs) Handles butSchedCancel.Click
+        'Cancels out of scheduling.  Resets visibility and effects.
+
         Dim drop As New DropShadowEffect
 
         imgJourney.Effect = Nothing
@@ -228,8 +227,9 @@ Class MainWindow
         txtSchedDate.Visibility = Visibility.Hidden
 
     End Sub
-
     Private Sub addYears()
+        'Populates the Year Combo Box with current and next year.  Only triggers if the day is December 31st.
+
         Dim intYear As Integer
 
         intYear = DateTime.Now.Year
@@ -245,8 +245,9 @@ Class MainWindow
             cmbYear.Items.Add(intYear)
         End If
     End Sub
-
     Private Sub addDays()
+        'Populates the Day Combo Box with current day and next day.  Handles leap years.
+
         Dim iday = DateTime.Now.Day
         Dim sMonth As String = DateTime.Now.ToString("MMM")
         Dim x As Integer = 2020
@@ -289,8 +290,9 @@ Class MainWindow
         End If
 
     End Sub
-
     Private Sub addMonths()
+        'Populates the Month Combo Box with current month or next month if it is the last day of the year.
+
         Dim sMonth As String = DateTime.Now.ToString("MMM")
         Dim iNextMonth As Integer
         Dim sNextMonth As String
@@ -318,27 +320,23 @@ Class MainWindow
             End If
         End If
 
-
     End Sub
     Private Sub addTimes(Optional ByVal updatedDate = "")
+        'Populates the times in the Time ComboBox.  Does not include times previous the current moment.  Had to eliminate midnight as it was causing issues in the Scheduled Reboot messages.
+
         Dim tsNewTime As DateTime
         Dim dtCurrentTime As DateTime
         Dim sTime As String
         Dim sNewTime As String
         Dim tsTime As DateTime
-        Dim dtUpdatedTime As DateTime
-
-        dtUpdatedTime = "00:00"
 
         dtCurrentTime = DateTime.Now
 
-
-
         tsNewTime = New DateTime(dtCurrentTime.Year, dtCurrentTime.Month, dtCurrentTime.Day, dtCurrentTime.Hour, dtCurrentTime.Minute, 0).AddMinutes(15 - dtCurrentTime.Minute Mod 15)
 
-        If updatedDate = "00:00" Then
-            sTime = "00:00"
-            tsTime = "00:00"
+        If updatedDate = "True" Then
+            sTime = "00:15"
+            tsTime = "00:15"
             cmbTime.Items.Add(sTime)
             cmbTime.Text = sTime
             sNewTime = sTime
